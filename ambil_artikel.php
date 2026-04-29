@@ -44,10 +44,21 @@ if (!$query) {
                     while($d = mysqli_fetch_array($query)) { ?>
                 <tr>
                     <td>
-                        <div class="bg-light text-center py-2" style="width:50px; border-radius:5px; font-size:10px; font-weight:bold; color:#999;">
-                            <?= strtoupper(pathinfo($d['gambar'] ?? '', PATHINFO_EXTENSION)) ?: 'IMG' ?>
-                        </div>
-                    </td>
+    <?php 
+    // Tentukan folder tempat menyimpan gambar artikel
+    $folder = "uploads_artikel/";
+    
+    if (!empty($d['gambar']) && file_exists($folder . $d['gambar'])): ?>
+        <img src="<?= $folder . $d['gambar'] ?>" 
+             alt="Gambar Artikel" 
+             style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid #eee;">
+    <?php else: ?>
+        <div class="bg-light text-center d-flex align-items-center justify-content-center" 
+             style="width:50px; height:50px; border-radius:8px; font-size:10px; font-weight:bold; color:#ccc; border: 1px dashed #ddd;">
+            NO<br>IMG
+        </div>
+    <?php endif; ?>
+</td>
                     <td><span class="fw-bold"><?= $d['judul'] ?></span></td>
                     <td><span class="badge bg-primary-subtle text-primary px-3"><?= $d['nama_kategori'] ?? 'Tanpa Kategori' ?></span></td>
                     <td class="text-muted"><?= ($d['nama_depan'] ?? 'Anonim') . " " . ($d['nama_belakang'] ?? '') ?></td>
